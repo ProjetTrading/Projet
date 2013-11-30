@@ -1,19 +1,17 @@
 #include <iostream>
-
-#include <stdlib.h>
-
+#include <map>
 //pour bzero
 #include <strings.h>
-
+#include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h> 
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <fstream>
 
 #include "Msg.h"
 #include "Serveur.h"
 
-using namespace std;
 
 Serveur::Serveur(int numeroPort) {
 
@@ -24,6 +22,7 @@ Serveur::Serveur(int numeroPort) {
 	serveur_addr.sin_addr.s_addr = INADDR_ANY;
 	serveur_addr.sin_port = htons(port);
 	bind(sock_fd, (struct sockaddr *) &serveur_addr, sizeof(serveur_addr));
+	taille_client = sizeof(client_addr);
 	
 }
 Serveur::~Serveur() {
@@ -32,42 +31,48 @@ Serveur::~Serveur() {
 }
 void Serveur::server_on() {
 	
-	const char msg[512];
-	string serverName("ISTY_TRADING_SYSTEM");
-	taille_client = sizeof(client_addr);
+	char msg[1024];
 	
 	listen(sock_fd, 0);
 	
  	newsock_fd = accept(sock_fd, (struct sockaddr *) &client_addr, &taille_client);
  	
-	if(fork() == 0) {//Premier fork sert à répondre à un message client
+	if(fork() != 0) {//Premier fork sert à répondre à un message client
+			
+		bzero(msg, 1024);
+		read(newsock_fd, msg, 1024);
+		printf("Message reçu : %s\n", msg);
 		
-		while(1) {
-			
-			bzero(msg, 512);
-			read(newsock_fd, msg, 4096);
-			
-			Msg fix(msg);
-			fix.setTargetID(fix.getClientID());
-			fix.setClientID(serverName);
-			
-			string msgSend = fix.reconstituerMsgFIX();
-			
-			write(newsock_fd, msgSend.c_str(), 512);
+		std::string fix(msg), cpy;
+		
+		//je ne sais pas trop qu'
+		Msg fix2(fix);
+		cpy = fix2.getSenderCompID();
+		fix2.setSenderCompID(fix2.getTargetCompID());
+		fix2.setTargetCompID(cpy);
+		
+		write(newsock_fd, fix2.toString().c_str(), 1024);
 				
-		}
+		wait();
 	}
-	else {//Deuxieme fork envoie toutes les secondes un messages au client
-		while (1) {
-			Msg fix(8, "FIX4.2", 9, "315", 35, "S", 34, "2", 49, "EXCHANGE_ISTY_TRADING");
-			string msgSend = fix.reconstituerMsgFIX();
-			write(newsock_fd, msgSend.c_str(), 512);
+	else { //Deuxieme fork envoie toutes les secondes un messages au client
+		std::fstream fichier("fix_msg", std::ios::in);
+		if(fichier) {
 			
-			//La certain paramètre du message FIX envoyé doivent changer comme par exemple 34=i, et i augmente de 1 a chq envoi avec des setX
+			std::string msg_fix_to_send;
 			
+			while(std::getline(fichier, msg_fix_to_send)) {
+				sleep (1);
+				write(newsock_fd, msg_fix_to_send.c_str(), 1024);
+			}
+			
+			fichier.close();
 		}
-		
+		else
+			std::cerr << "Impossible d'ouvrir le fichier." << std::endl;
+			
 	}
+
 	
 	return;
 }
