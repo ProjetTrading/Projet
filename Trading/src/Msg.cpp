@@ -2,7 +2,26 @@
 #include <unistd.h>
 #include <string>
 #include <sstream> // pour std::istringstream
-#include "../include/Msg.h"
+
+//on mets pas de include dans les .h
+#include <map>
+#include <string>
+
+#include "Msg.h"
+
+std::string Msg::getSenderCompID() {
+	return mpTags[SenderCompID];
+}
+void Msg::setSenderCompID(std::string str) {
+	mpTags[SenderCompID] = str;
+}
+
+std::string Msg::getTargetCompID() {
+	return mpTags[TargetCompID];
+}
+void Msg::setTargetCompID(std::string str) {
+	mpTags[TargetCompID] = str;
+}
 
 Msg::Msg(const std::string& strMsg)
 {
