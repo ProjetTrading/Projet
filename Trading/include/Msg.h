@@ -31,6 +31,7 @@ class Msg
         void setTargetCompID(std::string str);
         
         ~Msg();
+        std::string toString();
         /* retourne true si Logon accepte, false sinon */
         bool accLogon();
         /* retourne true si QuoteRequest accepte, false sinon */

@@ -7,7 +7,7 @@
 #include <map>
 #include <string>
 
-#include "Msg.h"
+#include "../include/Msg.h"
 
 std::string Msg::getSenderCompID() {
 	return mpTags[SenderCompID];
@@ -23,6 +23,21 @@ void Msg::setTargetCompID(std::string str) {
 	mpTags[TargetCompID] = str;
 }
 
+std::string Msg::toString() {
+	std::string str;
+	std::map<int, std::string>::iterator im;
+	im = mpTags.begin();
+	
+	for(im=mpTags.begin(); im != mpTags.end(); im++) {
+		std::ostringstream oss;
+		oss << (*im).first;
+		if(im == mpTags.begin())
+			str += "|";
+		str += oss.str() + "=" + (*im).second + "|";
+		
+	}
+	return str;
+}
 Msg::Msg(const std::string& strMsg)
 {
 	std::string tmpTag, defTag[2];
