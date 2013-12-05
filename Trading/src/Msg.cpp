@@ -3,10 +3,6 @@
 #include <string>
 #include <sstream> // pour std::istringstream
 
-//on mets pas de include dans les .h
-#include <map>
-#include <string>
-
 #include "../include/Msg.h"
 
 std::string Msg::getSenderCompID() {

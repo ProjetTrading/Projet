@@ -1,6 +1,8 @@
 #ifndef MSG_H
 #define MSG_H
-
+#include <unistd.h>
+#include <string>
+#include <map>
 
 #define SEP '|' // '^' possible
 #define EQU '='
@@ -43,4 +45,4 @@ class Msg
 		//std::map<int, std::string> getMpTags();
 };
 
-#endif // MSG_H
+#endif

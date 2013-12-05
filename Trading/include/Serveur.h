@@ -1,6 +1,7 @@
 #ifndef SERVEUR_H
 #define SERVEUR_H
-
+#include <unistd.h>
+#include <string>
 
 class Serveur {
 	private :
