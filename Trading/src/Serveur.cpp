@@ -1,9 +1,7 @@
 /* Compilation: 
  * 				Serveur: g++ -o Serveur Serveur.cpp Msg.cpp
- * 				Client: g++ -o Client Serveur.cpp Msg.cpp
- * Execution -> Sous 2 terminals differents:	
+ * Execution -> Sous 1 terminal different:	
  * 				Serveur: ./Serveur 20001
- * 				Client: ./Client localhost 20001
  */
 #include <iostream>
 #include <map>
