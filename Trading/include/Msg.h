@@ -28,6 +28,7 @@ class Msg
 		 *****************************/
         std::string getSenderCompID();
         std::string getTargetCompID();
+	std::string getMsgType();
         
         /*****************************
          *        Modificateur       *

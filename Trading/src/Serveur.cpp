@@ -1,7 +1,8 @@
 /* Compilation: 
  * 				Serveur: g++ -o Serveur Serveur.cpp Msg.cpp
  * Execution -> Sous 1 terminal different:	
- * 				Serveur: ./Serveur 20001
+ * 				Serveur quote: ./Serveur 20001
+				Serveur order: ./Serveur 20002
  */
 #include <iostream>
 #include <map>
@@ -51,11 +52,17 @@ void Serveur::server_on() {
 		
 		//je ne sais pas trop qu'
 		Msg fix2(fix);
-		cpy = fix2.getSenderCompID();
-		fix2.setSenderCompID(fix2.getTargetCompID());
-		fix2.setTargetCompID(cpy);
-		
-		write(newsock_fd, fix2.toString().c_str(), 1024);
+		if (fix2.getMsgType() == "S" ){
+			printf("SINGLE QUOTE \n");// TRAITEMENT SI QUOTE
+		}
+		if (fix2.getMsgType() == "D" ){
+			printf("SINGLE ORDER \n");// TRAITEMENT SI ORDER
+		}
+		//cpy = fix2.getSenderCompID();
+		//fix2.setSenderCompID(fix2.getTargetCompID());
+		//fix2.setTargetCompID(cpy);
+		//std::string test = "test";
+		//write(newsock_fd, cpy.c_str(), 1024);
 				
 		wait();
 	}

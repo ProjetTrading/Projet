@@ -8,16 +8,22 @@
 std::string Msg::getSenderCompID() {
 	return mpTags[SenderCompID];
 }
+
 void Msg::setSenderCompID(std::string str) {
 	mpTags[SenderCompID] = str;
 }
 
-std::string Msg::getTargetCompID() {
-	return mpTags[TargetCompID];
+//std::string Msg::getTargetCompID() {
+//	return mpTags[TargetCompID];
+//}
+//void Msg::setTargetCompID(std::string str) {
+//	mpTags[TargetCompID] = str;
+//}
+
+std::string Msg::getMsgType(){
+	return mpTags[MsgType];
 }
-void Msg::setTargetCompID(std::string str) {
-	mpTags[TargetCompID] = str;
-}
+
 
 std::string Msg::toString() {
 	std::string str;
