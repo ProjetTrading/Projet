@@ -1,6 +1,9 @@
-/* Compilation: Client: g++ -o Client Serveur.cpp Msg.cpp
+/* Compilation: 	g++ -o Client Client.cpp Msg.cpp
  * Execution -> Sous 1 terminal different:	
- * 				Client: ./Client localhost 20001
+ * 				Client: 	./Client localhost
+ * 
+ * 				Message en entrée: 8=FIX.4.2|9=0087|35=S|34=0|49=ISTY_TRADING_SYTEM|56=EXCHANGE_A|52=20131110-16:46:24|98=0|108=30|141=Y|10=183
+ * 				Pas de "|" a la fin car erreur sinon
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -60,10 +63,10 @@ int main(int argc, char *argv[])
 	(char *)&serv_addr.sin_addr.s_addr,
 	server->h_length);
 	serv_addr.sin_port = htons(portno);
-    	if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
+    if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
 		error("ERROR connecting");
 	//printf("Please enter the message: ");
-    	//bzero(buffer,1024);
+    //bzero(buffer,1024);
     	
     	write(sockfd,buffer,strlen(buffer));
    

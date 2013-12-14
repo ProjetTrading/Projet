@@ -1,9 +1,10 @@
 /* Compilation: 
- * 				Serveur: g++ -o Serveur Serveur.cpp Msg.cpp
+ * 				g++ -o Serveur Serveur.cpp Msg.cpp
  * Execution -> Sous 1 terminal different:	
- * 				Serveur quote: ./Serveur 20001
-				Serveur order: ./Serveur 20002
+ * 				Serveur quote:	 ./Serveur 20001
+				Serveur order:	 ./Serveur 20002
  */
+
 #include <iostream>
 #include <map>
 //pour bzero
@@ -50,7 +51,7 @@ void Serveur::server_on() {
 		
 		std::string fix(msg), cpy;
 		
-		//je ne sais pas trop qu'
+		//A voir
 		Msg fix2(fix);
 		if (fix2.getMsgType() == "S" ){
 			printf("SINGLE QUOTE \n");// TRAITEMENT SI QUOTE

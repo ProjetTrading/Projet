@@ -12,14 +12,16 @@ std::string Msg::getSenderCompID() {
 void Msg::setSenderCompID(std::string str) {
 	mpTags[SenderCompID] = str;
 }
+/*
+std::string Msg::getTargetCompID() {
+	return mpTags[TargetCompID];
+}
+void Msg::setTargetCompID(std::string str) {
+	mpTags[TargetCompID] = str;
+}
+*/
 
-//std::string Msg::getTargetCompID() {
-//	return mpTags[TargetCompID];
-//}
-//void Msg::setTargetCompID(std::string str) {
-//	mpTags[TargetCompID] = str;
-//}
-
+// Inutile donc a enlever car des booleens ont été definis pour les verifications
 std::string Msg::getMsgType(){
 	return mpTags[MsgType];
 }
