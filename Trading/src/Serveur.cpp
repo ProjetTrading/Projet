@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <map>
+#include <vector>
 //pour bzero
 #include <strings.h>
 #include <stdlib.h>

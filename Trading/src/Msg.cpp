@@ -6,30 +6,30 @@
 #include "../include/Msg.h"
 
 std::string Msg::getSenderCompID() {
-	return mpTags[SenderCompID];
+	return vTags[SenderCompID];
 }
 
 void Msg::setSenderCompID(std::string str) {
-	mpTags[SenderCompID] = str;
+	vTags[SenderCompID] = str;
 }
 /*
 std::string Msg::getTargetCompID() {
-	return mpTags[TargetCompID];
+	return vTags[TargetCompID];
 }
 void Msg::setTargetCompID(std::string str) {
-	mpTags[TargetCompID] = str;
+	vTags[TargetCompID] = str;
 }
 */
 
 // Inutile donc a enlever car des booleens ont été definis pour les verifications
 std::string Msg::getMsgType(){
-	return mpTags[MsgType];
+	return vTags[MsgType];
 }
 
 
 std::string Msg::toString() {
-	std::string str;
-	std::map<int, std::string>::iterator im;
+	std::string str="|";
+	/*std::map<int, std::string>::iterator im;
 	im = mpTags.begin();
 	
 	for(im=mpTags.begin(); im != mpTags.end(); im++) {
@@ -39,31 +39,46 @@ std::string Msg::toString() {
 			str += "|";
 		str += oss.str() + "=" + (*im).second + "|";
 		
-	}
+	}*/
+	for(int i=0;i<vTags.size();++i) {
+		std::ostringstream oss;
+		oss << i;
+		str += oss.str() + "=" + vTags[i] + "|";
+	}  
+	
+	
 	return str;
 }
+
+/* Constructeur */
 Msg::Msg(const std::string& strMsg)
 {
 	std::string tmpTag, defTag[2];
 	int i,numTag;
-	
+	/* Initialisation a 0 de LASTTAG éléments (valeur du dernier tag) pour le vecteur de tags */
+	//vTags.resize(200);
+	vTags.resize(LASTTAG,"null");
+	/* Allocation de LASTTAG éléments (valeur du dernier tag) pour le vecteur de tags */
+	//vTags.reserve(LASTTAG);
     std::istringstream ssMsg(strMsg);
+    /* Tant qu'il reste des séparateurs */
     while (std::getline(ssMsg, tmpTag, SEP)) {
 		std::istringstream ssTag(tmpTag);
 		i=0;
+		/* Séparation du numéro du tag et de sa valeur */
 		while (std::getline(ssTag, defTag[i], EQU)) {
 			i++;
 		}
 		if(i!=2){
 			std::cout << "Erreur: Orthographe du Tag";// Traiter l'erreur
 		}
-		/* cast en int du numero de tag */
+		/* Cast en int du numero de tag */
 		std::istringstream ssNumTag(defTag[0]);
 		ssNumTag >> numTag;
-		mpTags[numTag] = defTag[1];
+		vTags[numTag] = defTag[1];
     }
-	if(mpTags.empty()){
-		std::cout << "Erreur: Map de Tags vide";// Traiter l'erreur
+	if(vTags[MsgType]=="null"){
+		std::cout << "Erreur: Vecteur -> MsgType manquant";// Traiter l'erreur
 	}
 }
 
@@ -71,15 +86,12 @@ Msg::Msg(const std::string& strMsg)
 Msg::~Msg()
 {
 }
-
+// A REMPLACER PAR VECTOR
 /* retourne true si Logon accepte, false sinon */
 bool Msg::accLogon()
 {	
 	bool acc=false;
-	if(mpTags.find(35) == mpTags.end()){
-		std::cout<<"Erreur: Type de message manquant"<<std::endl;// Traiter l'erreur
-	}
-	else if(mpTags[35]=="A"){// type de message est Logon
+	if(vTags[35]=="A"){// type de message est Logon
 		/*if(nomClient="AAA"){ acc=true;}*/ // Nom du client est correct
 		acc=true;
 	}
@@ -90,10 +102,7 @@ bool Msg::accLogon()
 bool Msg::accQuoteRequest()
 {
 	bool acc=false;
-	if(mpTags.find(35) == mpTags.end()){
-		std::cout<<"Erreur: Type de message manquant"<<std::endl;// Traiter l'erreur
-	}
-	else if(mpTags[35]=="R"){// type de message est Quote Request
+	if(vTags[35]=="R"){// type de message est Quote Request
 		// et ...
 		acc=true;
 	}
@@ -104,21 +113,10 @@ bool Msg::accQuoteRequest()
 bool Msg::accSingleQuote()
 {	
 	bool acc=false;
-	if(mpTags.find(35) == mpTags.end()){
-		std::cout<<"Erreur: Type de message manquant"<<std::endl;// Traiter l'erreur
-	}
-	else if(mpTags[35]=="S"){//type de message est Single Quote)
+	if(vTags[35]=="S"){//type de message est Single Quote)
 		// et ...
 		acc=true;
 	}
 	return acc;
-}
-
-/* affiche la liste de Tags */
-void Msg::displayTags(){
-	std::map<int,std::string>::iterator pIt; // Pointeur iterateur
-	for(pIt=mpTags.begin(); pIt!=mpTags.end(); pIt++){
-		std::cout << (*pIt).first << ":" << (*pIt).second << std::endl;
-	}
 }
 

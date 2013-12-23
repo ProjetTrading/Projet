@@ -13,7 +13,7 @@ class Book {
     public:
     Book(){
         for(int i=0;i<10;i++){
-            provenance[i]="nothing";
+            provenance[i]="null";
             volume[i] = 0;
             bid[i]=0;
             offer[i]=0;
@@ -21,9 +21,9 @@ class Book {
     }
 
     void afficher_book(){
-        printf("Provenance/volume/Bid/Offer\n");
+        printf("Provid\t|\tVolume\t|\tBid\t|\tOffer\t|\n");
         for(int i=0;i<10;i++){
-            cout << provenance[i] <<"  "<< volume[i] <<"  "<< bid[i] <<"  "<< offer[i] <<"\n";
+            cout << provenance[i] <<"\t|\t"<< volume[i] <<"\t|\t"<< bid[i] <<"\t|\t"<< offer[i] <<"\t|\n";
         }
     }
 
@@ -72,11 +72,11 @@ int main()
 {
     Book mesBid, mesOffer;
     mesBid.ajouter_par_bid("ibm",4,1.0452,1.2654);
-    mesBid.ajouter_par_bid("facebook",11,1.0689,1.9054);
+    mesBid.ajouter_par_bid("faceb",11,1.0689,1.9054);
     mesBid.afficher_book();
 
     mesOffer.ajouter_par_offer("ibm",4,1.0452,1.2654);
-    mesOffer.ajouter_par_offer("facebook",11,1.0689,1.1054);
+    mesOffer.ajouter_par_offer("faceb",11,1.0689,1.1054);
     mesOffer.afficher_book();
     return 0;
 }

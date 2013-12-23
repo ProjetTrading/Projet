@@ -1,9 +1,9 @@
 /* Compilation: 	g++ -o Client Client.cpp Msg.cpp
  * Execution -> Sous 1 terminal different:	
- * 				Client: 	./Client localhost
+ * 			Client: 	./Client localhost
  * 
- * 				Message en entrée: 8=FIX.4.2|9=0087|35=S|34=0|49=ISTY_TRADING_SYTEM|56=EXCHANGE_A|52=20131110-16:46:24|98=0|108=30|141=Y|10=183
- * 				Pas de "|" a la fin car erreur sinon
+ * 			Message en entrée: 8=FIX.4.2|9=0087|35=S|34=0|49=ISTY_TRADING_SYTEM|56=EXCHANGE_A|52=20131110-16:46:24|98=0|108=30|141=Y|10=183
+ * 			Pas de "|" a la fin car erreur sinon
  */
 #include <stdio.h>
 #include <stdlib.h>
