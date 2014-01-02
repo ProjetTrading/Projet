@@ -1,82 +1,90 @@
 #include <iostream>
 #include <stdio.h>
+#include <string>
+#include "../include/Book.h"
 
-using namespace std;
+/* Constructeur */
+Book::Book(std::string symbol){
+	this->symbol=symbol;
+	int i;
+	for(i=0;i<SIZE;i++){
+		bid[i].value=0.0;
+		bid[i].size=0;
+		offer[i].value=0.0;
+		offer[i].size=0;
+	}
+}
+/* Constructeur par défaut*/
+Book::Book(){
+	this->symbol="unknown";
+	int i;
+	for(i=0;i<SIZE;i++){
+		bid[i].value=0.0;
+		bid[i].size=0;
+		offer[i].value=0.0;
+		offer[i].size=0;
+	}
+}
 
-class Book {
-    private:
-    string provenance[10];
-    int volume[10];
-    float bid[10];
-    float offer[10];
+/* Destructeur */
+Book::~Book() {
+	// Suppressions de donnees
+}
+/* Affichage du Book */
+void Book::display(){
+	std::cout << "\t\t--------------" << symbol << "--------------\n\t\t|\tBID\t|\tOFFER\t|\t\t\n";
+	std::cout << "\t\t|\t" << bid[0].value << "\t|\t" << offer[0].value << "\t|\t\t\n";
+	std::cout << "------------------------------" << symbol << "------------------------------\n";
+	std::cout << "|\tQty\t|\tBid\t|\tOffer\t|\tQty\t|\n";
+	for(int i=0;i<SIZE;i++){
+		std::cout << "|\t" << bid[i].size <<"\t|\t"<< bid[i].value <<"\t|\t"<< offer[i].value << "\t|\t" << offer[i].size << "\t|\n";
+	}
+}
 
-    public:
-    Book(){
-        for(int i=0;i<10;i++){
-            provenance[i]="null";
-            volume[i] = 0;
-            bid[i]=0;
-            offer[i]=0;
-        }
-    }
+/* Insertion d'un bid dans un tri décroissant */
+void Book::insertBid(int size, float bi){
+	int i,j;
+	for(i=0;i<SIZE;i++){
+		if(bi>=bid[i].value){
+			for(j=SIZE-1;j>i;j--){
+				bid[j]=bid[j-1];
+			}
+		bid[i].value = bi;
+		bid[i].size = size;
+		break;
+		}
+	}
+}
 
-    void afficher_book(){
-        printf("Provid\t|\tVolume\t|\tBid\t|\tOffer\t|\n");
-        for(int i=0;i<10;i++){
-            cout << provenance[i] <<"\t|\t"<< volume[i] <<"\t|\t"<< bid[i] <<"\t|\t"<< offer[i] <<"\t|\n";
-        }
-    }
+/* Insertion d'une offer dans un tri croissant */
+void Book::insertOffer(int size, float off){
+	int i,j;
+	for(i=0;i<SIZE;i++){
+		if(off>=offer[i].value){
+			for(j=SIZE-1;j>i;j--){
+				offer[j]= offer[j-1];
+			}
+		offer[i].value =off;
+		offer[i].size = size;
+		break;
+		}
+	}
+}
 
-    //Ajout d'un bid, cad que l'on insert en fonction du bid pour que le tableau soit trié de façon décroissante
-    void ajouter_par_bid(string s, int v,float b,float o){
-        int i,j;
-        for(i=0;i<10;i++){
-            if(b>=bid[i]){
-                for(j=9;j>i;j--){
-                    bid[j]=bid[j-1];
-                    offer[j]= offer[j-1];
-                    provenance[j]= provenance[j-1];
-                    volume[j]= volume[j-1];
-                }
-            bid[i] = b;
-            offer[i]=o;
-            provenance[i]= s;
-            volume[i]= v;
-            break;
-            }
-        }
-    }
+/* Retourne le symbole */
+std::string Book::getSymbol(){
+	return this->symbol;
+}
 
-    //Ajout d'un bid, cad que l'on insert en fonction de l'offre pour que le tableau soit trié de façon croisante
-    void ajouter_par_offer(string s, int v,float b,float o){
-        int i,j;
-        for(i=0;i<10;i++){
-            if(o>=offer[i]){
-                for(j=9;j>i;j--){
-                    bid[j]=bid[j-1];
-                    offer[j]= offer[j-1];
-                    provenance[j]= provenance[j-1];
-                    volume[j]= volume[j-1];
-                }
-            bid[i] = b;
-            offer[i]=o;
-            provenance[i]= s;
-            volume[i]= v;
-            break;
-            }
-        }
-    }
-};
-
+/*
 int main()
 {
-    Book mesBid, mesOffer;
-    mesBid.ajouter_par_bid("ibm",4,1.0452,1.2654);
-    mesBid.ajouter_par_bid("faceb",11,1.0689,1.9054);
-    mesBid.afficher_book();
-
-    mesOffer.ajouter_par_offer("ibm",4,1.0452,1.2654);
-    mesOffer.ajouter_par_offer("faceb",11,1.0689,1.1054);
-    mesOffer.afficher_book();
+    Book B1("INTEL");
+    B1.insertBid(4,1.2654);
+    B1.insertBid(2,1.2649);
+    B1.insertOffer(7,1.0452);
+    B1.insertOffer(11,1.0689);
+    B1.display();
     return 0;
 }
+*/

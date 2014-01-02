@@ -10,9 +10,11 @@ class Serveur {
 		socklen_t taille_client;
 		
 	public :
+		/* Constructeur */
 		Serveur(int port);
+		/* Destructeur */
 		~Serveur();
-		
+		/* Demarrage du serveur */
 		void server_on();
 };
 
