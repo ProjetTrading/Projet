@@ -10,9 +10,7 @@
 class Client
 {
     private: 
-		
     public:
-		//void error(const char *);
 };
 
 #endif

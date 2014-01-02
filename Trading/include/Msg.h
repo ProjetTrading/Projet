@@ -64,14 +64,15 @@ class Msg
 			enTags BidSize;
 			enTags OfferSize;
 		} tagName;
-		//enTags tagName; 
 		
 		/* Constructeur par défaut */
-        Msg();
+        //Msg();
 		/* Constructeur, remplissage de la liste de Tags à partir du par. */
         Msg(const std::string &);      
         /* Destructeur */
         ~Msg();
+        /* Initialise tous les champs de l'enum (à -1) */
+        void initEnum();
         /* Affectation de l'enum pour l'associer au vecteur */
         void defineEnum(int);
         /*****************************
@@ -95,8 +96,9 @@ class Msg
         bool accQuoteRequest();
         /* Retourne true si QuoteRequest accepte, false sinon */
         bool accSingleQuote();
-		/* Retounre la liste de Tags sous forme de chaine de caracteres */
+		/* Retourne la liste de Tags sous forme de chaine de caracteres */
 		std::string toString();
+
 };
 
 #endif

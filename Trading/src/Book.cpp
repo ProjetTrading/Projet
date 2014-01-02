@@ -30,9 +30,11 @@ Book::Book(){
 Book::~Book() {
 	// Suppressions de donnees
 }
+
 /* Affichage du Book */
 void Book::display(){
-	std::cout << "\t\t--------------" << symbol << "--------------\n\t\t|\tBID\t|\tOFFER\t|\t\t\n";
+	//std::cout << std::string( 50, '\n' );
+	std::cout << "\n\t\t--------------" << symbol << "--------------\n\t\t|\tBID\t|\tOFFER\t|\t\t\n";
 	std::cout << "\t\t|\t" << bid[0].value << "\t|\t" << offer[0].value << "\t|\t\t\n";
 	std::cout << "------------------------------" << symbol << "------------------------------\n";
 	std::cout << "|\tQty\t|\tBid\t|\tOffer\t|\tQty\t|\n";
@@ -76,15 +78,3 @@ std::string Book::getSymbol(){
 	return this->symbol;
 }
 
-/*
-int main()
-{
-    Book B1("INTEL");
-    B1.insertBid(4,1.2654);
-    B1.insertBid(2,1.2649);
-    B1.insertOffer(7,1.0452);
-    B1.insertOffer(11,1.0689);
-    B1.display();
-    return 0;
-}
-*/
