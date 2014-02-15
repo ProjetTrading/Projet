@@ -8,8 +8,10 @@ Book::Book(std::string symbol){
 	this->symbol=symbol;
 	int i;
 	for(i=0;i<SIZE;i++){
+		bid[i].provider=0;
 		bid[i].value=0.0;
 		bid[i].size=0;
+		offer[i].provider=0;
 		offer[i].value=0.0;
 		offer[i].size=0;
 	}
@@ -19,8 +21,10 @@ Book::Book(){
 	this->symbol="unknown";
 	int i;
 	for(i=0;i<SIZE;i++){
+		bid[i].provider=0;
 		bid[i].value=0.0;
 		bid[i].size=0;
+		offer[i].provider=0;
 		offer[i].value=0.0;
 		offer[i].size=0;
 	}
@@ -44,32 +48,34 @@ void Book::display(){
 }
 
 /* Insertion d'un bid dans un tri décroissant */
-void Book::insertBid(int size, float bi){
-	int i,j;
-	for(i=0;i<SIZE;i++){
-		if(bi>=bid[i].value){
-			for(j=SIZE-1;j>i;j--){
-				bid[j]=bid[j-1];
-			}
+void Book::insertBid(int prov, int size, float bi){
+	int i=0,j;
+	while (i<SIZE && bi<=bid[i].value){
+			i++;
+	}
+	if(bi>bid[i].value){ // Insertion si la nouvelle valeur est plus grande que celle du tableau 
+		for(j=SIZE-1;j>i;j--){
+			bid[j]=bid[j-1];
+		}
+		bid[i].provider = prov;
 		bid[i].value = bi;
 		bid[i].size = size;
-		break;
 		}
-	}
 }
 
 /* Insertion d'une offer dans un tri croissant */
-void Book::insertOffer(int size, float off){
-	int i,j;
-	for(i=0;i<SIZE;i++){
-		if(off>=offer[i].value){
-			for(j=SIZE-1;j>i;j--){
-				offer[j]= offer[j-1];
-			}
+void Book::insertOffer(int prov, int size, float off){
+	int i=0,j;
+	while (i<SIZE && off>=offer[i].value && offer[i].value!=0){
+			i++;
+	}
+	if(off<offer[i].value || offer[i].value==0){ // Insertion si la valeur du tableau est 0 ou plus grande que la nouvelle
+		for(j=SIZE-1;j>i;j--){
+			offer[j]= offer[j-1];
+		}
+		offer[i].provider = prov;
 		offer[i].value =off;
 		offer[i].size = size;
-		break;
-		}
 	}
 }
 

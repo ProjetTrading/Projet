@@ -44,21 +44,20 @@ void Serveur::server_on(){
 	if(fork() != 0) {//Premier fork sert à répondre à un message client
 		bzero(msg, 1024);
 		while(read(newsock_fd, msg, 1024)){
-		printf("Message reçu : %s\n", msg);
-		std::string fix(msg), cpy;
-		
-		Msg fix2(fix);
-		if (fix2.getMsgType() != "D"){
-			printf("MsgType: Not Single ORDER\n");// TRAITEMENT SI NOT ORDER
-		}
-		else{
-			printf("MsgType: Single ORDER\n");// TRAITEMENT SI ORDER
-		}
-		bzero(msg, 1024);
-		//wait();
+			printf("Message reçu : %s\n", msg);
+			std::string fix(msg), cpy;
+			Msg fix2(fix);
+			if (fix2.getMsgType() != "D"){
+				printf("MsgType: Not Single ORDER\n");// TRAITEMENT SI NOT ORDER
+			}
+			else{
+				printf("MsgType: Single ORDER\n");// TRAITEMENT SI ORDER
+			}
+			bzero(msg, 1024);
+			//wait();
 		}
 	}
-	else { //Deuxieme fork envoie toutes les secondes un messages au client
+	else { //Deuxieme fork envoie un message au client chaque seconde
 		std::fstream fichier("fix_msg", std::ios::in);
 		if(fichier) {
 			std::string msg_fix_to_send;

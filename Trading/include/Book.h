@@ -6,6 +6,7 @@
 #define SIZE 10
 
 struct bidOffer {
+	int provider;
 	float value;
 	int size;
 };
@@ -27,9 +28,9 @@ class Book
 		/* Affichage du Book */
 		void display();
 		/* Insertion d'un bid dans un tri décroissant */
-		void insertBid(int, float);
+		void insertBid(int, int, float);
 		/* Insertion d'une offer dans un tri croissant */
-		void insertOffer(int, float);
+		void insertOffer(int, int, float);
 		/* Retourne le symbole */
 		std::string getSymbol();
 };
