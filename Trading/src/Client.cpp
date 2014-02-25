@@ -121,7 +121,8 @@ int main(int argc, char *argv[]){
 				}
 				std::string valBidSize= msg[numMsg]->getTag(msg[numMsg]->tagName.BidSize);
 				std::string valBidPx= msg[numMsg]->getTag(msg[numMsg]->tagName.BidPx);
-				book[bookInd]->insertBid(sockfd,atoi(valBidSize.c_str()),atoi(valBidPx.c_str()));
+				std::string valBidProvid= msg[numMsg]->getTag(msg[numMsg]->tagName.SenderCompID);
+				book[bookInd]->insertBid(valBidProvid,atoi(valBidSize.c_str()),atoi(valBidPx.c_str()));
 				book[bookInd]->display();
 			}
 			if(numOfferSize!=-1 && numOfferPx!=-1){
@@ -135,8 +136,9 @@ int main(int argc, char *argv[]){
 				}
 				std::string valOfferSize= msg[numMsg]->getTag(msg[numMsg]->tagName.OfferSize);
 				std::string valOfferPx= msg[numMsg]->getTag(msg[numMsg]->tagName.OfferPx);
+				std::string valOfferProvid= msg[numMsg]->getTag(msg[numMsg]->tagName.SenderCompID);
 				/* Insertion des données de l'offre dans le book */
-				book[bookInd]->insertOffer(sockfd,atoi(valOfferSize.c_str()),atoi(valOfferPx.c_str()));
+				book[bookInd]->insertOffer(valOfferProvid,atoi(valOfferSize.c_str()),atoi(valOfferPx.c_str()));
 				book[bookInd]->display();
 			}
 		}

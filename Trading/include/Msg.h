@@ -16,12 +16,8 @@ class Msg
 		/*enum enTags { Account=1, BeginSeqNo=7, BeginString=8, BodyLength=9, CheckSum=10, ClOrdID=11, Commission=12, CommType=13, CumQty=14, 
 		Currency=15, EndSeqNo=16, ExecID=17, IOIID=23, IOIQltyInd=25, IOIRefID=26, IOIQty=27, IOITransType=28, MsgSeqNum=34, MsgType=35, 
 		OrderID=37, OrderQty=38, PossDupFlag=43, Price=44, SecurityID=48, SenderCompID=49, SenderSubID=50, SendingTime=52, Quantity=53, 
-		Symbol=55, Text=58, TransactTime=60, FutSettDate=64, QuoteID=117, QuoteReqID=131, BidPx=132, OfferPx=133, BidSize=134, OfferSize=135, 
+		Symbol=55, TargetCompID=56, Text=58, TransactTime=60, FutSettDate=64, QuoteID=117, QuoteReqID=131, BidPx=132, OfferPx=133, BidSize=134, OfferSize=135, 
 		ExecType=150, LASTTAG=ExecType}; 
-		enum enTags : int { Account, BeginSeqNo, BeginString, BodyLength, CheckSum, ClOrdID, Commission, CommType, CumQty, 
-		Currency, EndSeqNo, ExecID, IOIID, IOIQltyInd, IOIRefID, IOIQty, IOITransType, MsgSeqNum, MsgType, 
-		OrderID, OrderQty, PossDupFlag, Price, SecurityID, SenderCompID, SenderSubID, SendingTime, Quantity, 
-		Symbol, Text, TransactTime, FutSettDate, QuoteID, QuoteReqID, BidPx, OfferPx, BidSize, OfferSize};
 		*/
 		typedef int enTags;
 		struct {
@@ -54,6 +50,7 @@ class Msg
 			enTags SendingTime;
 			enTags Quantity;
 			enTags Symbol;
+			enTags TargetCompID;
 			enTags Text;
 			enTags TransactTime;
 			enTags FutSettDate;
@@ -86,9 +83,10 @@ class Msg
         /*****************************
          *        Modificateur       *
          *****************************/
-         // Si n'existe pas, alors il sera créer !
+         /* Modification de l'envoyeur */
         void setSenderCompID(std::string str);
-        //void setTargetCompID(std::string str);
+        /* Modification du destinataire */
+        void setTargetCompID(std::string str);
         
         /* Retourne true si Logon accepte, false sinon */
         bool accLogon();

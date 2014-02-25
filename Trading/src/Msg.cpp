@@ -5,13 +5,14 @@
 #include "../include/Msg.h"
 #define MAXSYMBOL 20
 
-
-std::string Msg::getSenderCompID() {
-	return vTags[tagName.SenderCompID];
-}
-
+/* Modification de l'envoyeur */
 void Msg::setSenderCompID(std::string str) {
 	vTags[tagName.SenderCompID] = str;
+}
+
+/* Modification du destinataire */
+void Msg::setTargetCompID(std::string str) {
+	vTags[tagName.TargetCompID] = str;
 }
 
 
@@ -28,14 +29,12 @@ std::string Msg::getTag(int numTag){
 }
 
 std::string Msg::toString() {
-	std::string str="|";
+	std::string str="";
 	for(unsigned int i=0;i<vTags.size();++i) {
 		std::ostringstream oss;
 		oss << i;
 		str += oss.str() + "=" + vTags[i] + "|";
-	}  
-	
-	
+	}
 	return str;
 }
 
@@ -66,12 +65,8 @@ Msg::Msg(const std::string& strMsg){
 		std::cerr << "Erreur: Vecteur -> MsgType manquant";// Traiter l'erreur
 	}
 }
-/*
-Msg::Msg(){
-	initEnum(); //initialise tous les champs de l'enum
-}*/
 
-/* destruction des objets dans l'ordre inverse de creation*/
+/* destruction des objets*/
 Msg::~Msg(){
 }
 
@@ -108,6 +103,7 @@ void Msg::initEnum(){
 	tagName.SendingTime=init;
 	tagName.Quantity=init;
 	tagName.Symbol=init;
+	tagName.TargetCompID=init;
 	tagName.Text=init;
 	tagName.TransactTime=init;
 	tagName.FutSettDate=init;
@@ -194,6 +190,8 @@ void Msg::defineEnum(int numTag){
 					tagName.EndSeqNo=vTags.size();
 				}else if(numTag==26){
 					tagName.IOIRefID=vTags.size();
+				}else if(numTag==56){
+					tagName.TargetCompID=vTags.size();
 				}
 				break;
 			case 7: 
@@ -236,10 +234,9 @@ void Msg::defineEnum(int numTag){
 }
 
 /* retourne true si Logon accepte, false sinon */
-bool Msg::accLogon(){	
+bool Msg::accLogon(){
 	bool acc=false;
-	if(vTags[tagName.MsgType]=="A"){// type de message est Logon
-		/*if(nomClient="AAA"){ acc=true;}*/ // Nom du client est correct
+	if(vTags[tagName.MsgType]=="A" && vTags[tagName.SenderCompID]=="ISTY_TRADING_SYTEM"){// type de message:Logon et client:ISTY_TRADING_SYTEM
 		acc=true;
 	}
 	return acc;
@@ -249,7 +246,6 @@ bool Msg::accLogon(){
 bool Msg::accQuoteRequest(){
 	bool acc=false;
 	if(vTags[tagName.MsgType]=="R"){// type de message est Quote Request
-		// et ...
 		acc=true;
 	}
 	return acc;
@@ -259,7 +255,6 @@ bool Msg::accQuoteRequest(){
 bool Msg::accSingleQuote(){	
 	bool acc=false;
 	if(vTags[tagName.MsgType]=="S"){//type de message est Single Quote)
-		// et ...
 		acc=true;
 	}
 	return acc;

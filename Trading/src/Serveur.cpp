@@ -28,7 +28,6 @@ Serveur::Serveur(int numeroPort) {
 	serveur_addr.sin_port = htons(port);
 	bind(sock_fd, (struct sockaddr *) &serveur_addr, sizeof(serveur_addr));
 	taille_client = sizeof(client_addr);
-	
 }
 
 Serveur::~Serveur() {
@@ -37,23 +36,43 @@ Serveur::~Serveur() {
 }
 
 void Serveur::server_on(){
-	char msg[1024];
+	char charMsg[1024];
+	bzero(charMsg, 1024);
+	
 	listen(sock_fd, 0);
  	newsock_fd = accept(sock_fd, (struct sockaddr *) &client_addr, &taille_client);
- 	
+ 	bool logon=false;
+ 	read(newsock_fd, charMsg, 1024);
+ 	std::string strMsg(charMsg);
+	Msg msg(strMsg);
+	std::cout << "Test de connexion...\n";
+	logon=msg.accLogon();
+	bzero(charMsg, 1024);
+ 	if(!logon){
+		std::cerr << "Echec de connexion" << std::endl;
+		return;
+	}
+	std::string strSender(msg.getTag(msg.tagName.SenderCompID));
+	std::cout << "--> Connexion établie avec "<< strSender << std::endl;
+	/*
+	msg.setSenderCompID(msg.getTag(msg.tagName.TargetCompID));
+	msg.setTargetCompID(strSender);
+	strMsg.assign(msg.toString());
+	std::cout << "A envoyer: "<< strMsg << std::endl;
+	write(newsock_fd, strMsg.c_str(), 1024);
+	*/
 	if(fork() != 0) {//Premier fork sert à répondre à un message client
-		bzero(msg, 1024);
-		while(read(newsock_fd, msg, 1024)){
-			printf("Message reçu : %s\n", msg);
-			std::string fix(msg), cpy;
-			Msg fix2(fix);
-			if (fix2.getMsgType() != "D"){
+		while(read(newsock_fd, charMsg, 1024)){
+			printf("Message reçu : %s\n", charMsg);
+			strMsg.assign(charMsg);
+			Msg msg(strMsg);
+			if (msg.getMsgType() != "D"){
 				printf("MsgType: Not Single ORDER\n");// TRAITEMENT SI NOT ORDER
 			}
 			else{
 				printf("MsgType: Single ORDER\n");// TRAITEMENT SI ORDER
 			}
-			bzero(msg, 1024);
+			bzero(charMsg, 1024);
 			//wait();
 		}
 	}

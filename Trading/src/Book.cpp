@@ -8,10 +8,10 @@ Book::Book(std::string symbol){
 	this->symbol=symbol;
 	int i;
 	for(i=0;i<SIZE;i++){
-		bid[i].provider=0;
+		bid[i].provider="exchange_0";
 		bid[i].value=0.0;
 		bid[i].size=0;
-		offer[i].provider=0;
+		offer[i].provider="exchange_0";
 		offer[i].value=0.0;
 		offer[i].size=0;
 	}
@@ -21,10 +21,10 @@ Book::Book(){
 	this->symbol="unknown";
 	int i;
 	for(i=0;i<SIZE;i++){
-		bid[i].provider=0;
+		bid[i].provider="exchange_0";
 		bid[i].value=0.0;
 		bid[i].size=0;
-		offer[i].provider=0;
+		offer[i].provider="exchange_0";
 		offer[i].value=0.0;
 		offer[i].size=0;
 	}
@@ -38,17 +38,18 @@ Book::~Book() {
 /* Affichage du Book */
 void Book::display(){
 	//std::cout << std::string( 50, '\n' );
-	std::cout << "\n\t\t--------------" << symbol << "--------------\n\t\t|\tBID\t|\tOFFER\t|\t\t\n";
-	std::cout << "\t\t|\t" << bid[0].value << "\t|\t" << offer[0].value << "\t|\t\t\n";
-	std::cout << "------------------------------" << symbol << "------------------------------\n";
-	std::cout << "|\tQty\t|\tBid\t|\tOffer\t|\tQty\t|\n";
+	std::cout << "\n\t\t\t\t\t------------  " << symbol << "  ------------\n";
+	std::cout << "\t\t\t\t\t|\tBID\t|\tOFFER\t|\n";
+	std::cout << "\t\t\t\t\t|\t" << bid[0].value << "\t|\t" << offer[0].value << "\t|\n";
+	std::cout << "----------------------------------------------------  " << symbol << "  ----------------------------------------------------\n";
+	std::cout << "|\tProvid\t\t|\tQty\t|\tBid\t|\tOffer\t|\tQty\t|\tProvid\t\t|\n";
 	for(int i=0;i<SIZE;i++){
-		std::cout << "|\t" << bid[i].size <<"\t|\t"<< bid[i].value <<"\t|\t"<< offer[i].value << "\t|\t" << offer[i].size << "\t|\n";
+		std::cout << "|\t" << bid[i].provider << "\t|\t" << bid[i].size <<"\t|\t"<< bid[i].value <<"\t|\t"<< offer[i].value << "\t|\t" << offer[i].size << "\t|\t" << offer[i].provider << "\t|\n";
 	}
 }
 
 /* Insertion d'un bid dans un tri décroissant */
-void Book::insertBid(int prov, int size, float bi){
+void Book::insertBid(std::string prov, int size, float bi){
 	int i=0,j;
 	while (i<SIZE && bi<=bid[i].value){
 			i++;
@@ -64,7 +65,7 @@ void Book::insertBid(int prov, int size, float bi){
 }
 
 /* Insertion d'une offer dans un tri croissant */
-void Book::insertOffer(int prov, int size, float off){
+void Book::insertOffer(std::string prov, int size, float off){
 	int i=0,j;
 	while (i<SIZE && off>=offer[i].value && offer[i].value!=0){
 			i++;
